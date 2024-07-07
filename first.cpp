@@ -108,10 +108,12 @@ int main(int argc, char **argv){
         //GPU Volate
         int GV=readfile(PATH+"in0_input");
         //GPUVRAM
-        float temp=int(readfile("/sys/class/drm/card1/device/mem_info_vram_used")/10000000);
-        float GVU=temp/100.0;
 
-        float GVG=int(readfile("/sys/class/drm/card1/device/mem_info_vram_total")/10000000)/100.0;
+        float GVU=int(readfile("/sys/class/drm/card1/device/mem_info_vram_used")/10000000.0)/100.0;
+        std::ostringstream temp2;
+        temp2<<GVU; 
+        std::string GVUs=temp2.str(); 
+        float GVG=int(readfile("/sys/class/drm/card1/device/mem_info_vram_total")/10000000.0)/100.0;
         GVG=int((GVU/GVG)*100);
         
 
@@ -153,11 +155,11 @@ int main(int argc, char **argv){
         std::cout<<"Mem:        "<<repeatchar(std::to_string(GTM))<<GTM<<" °C\n";
         //da die Funktion mit Float nicht funktioniert, da diese immer 8 Stellen haben. Für die Länge nehme ich temp und füge eine Stelle hinzu, da der "." in Temp ignoriert wird
         if(GVG<=60){//if for color
-            std::cout<<"VRAM:       "<<repeatchar(std::to_string(int(temp))+" ")<<GVU<<" GB     (\033[0;32m"<<int(GVG)<<"%\033[0m)\n";
+            std::cout<<"VRAM:       "<<repeatchar(GVUs)<<GVU<<" GB     (\033[0;32m"<<int(GVG)<<"%\033[0m)\n";
         }else if(GVG<=85){
-            std::cout<<"VRAM:       "<<repeatchar(std::to_string(int(temp))+" ")<<GVU<<" GB     (\033[0;33m"<<int(GVG)<<"%\033[0m)\n";
+            std::cout<<"VRAM:       "<<repeatchar(GVUs)<<GVU<<" GB     (\033[0;33m"<<int(GVG)<<"%\033[0m)\n";
         }else if(GVG<=100){
-            std::cout<<"VRAM:       "<<repeatchar(std::to_string(int(temp))+" ")<<GVU<<" GB     (\031[0;33m"<<int(GVG)<<"%\033[0m)\n";
+            std::cout<<"VRAM:       "<<repeatchar(GVUs)<<GVU<<" GB     (\031[0;33m"<<int(GVG)<<"%\033[0m)\n";
         }
         
         std::cout<<std::endl<<std::endl;
